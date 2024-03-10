@@ -3,23 +3,26 @@ import { CircularProgress } from "@mui/material";
 import { WordleRequestItem, fetchWordleResult } from "../api/api";
 import Guess from "./Guess";
 
+const MAX_GUESSES = 6;
+type GameStatus = "ongoing" | "win" | "lose" | "initializing" | "submitting" | "error";
+
 export default function Game() {
     const [guesses, setGuesses] = useState<WordleRequestItem[]>([]);
     const [newGuess, setNewGuess] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
-    const [status, setStatus] = useState<"ongoing" | "win" | "lose" | "error">("ongoing");
 
     async function getNextGuess(request: WordleRequestItem[]) {
-        let success;
+        setLoading(true);
+        let success = false;
 
         try {
             const { guess } = await fetchWordleResult(request);
             setNewGuess(guess);
+
             success = true;
         } catch (err: any) {
             setError(String(err));
-            success = false;
         }
 
         setLoading(false);
@@ -31,36 +34,28 @@ export default function Game() {
     }, []);
 
     async function submitClue(clue: string) {
+        setError(null);
         const allGuesses = [...guesses, { word: newGuess, clue }];
 
-        if (clue === "ggggg") {
-            setStatus("win");
-        } else if (allGuesses.length === 6) {
-            setStatus("lose");
-        } else {
-            setError(null);
-            setLoading(true);
-            setStatus("ongoing");
-
-            const succeeded = await getNextGuess(allGuesses);
-
-            if (!succeeded) {
-                setStatus("error");
-                return false;
-            }
+        if (clue !== "ggggg" && allGuesses.length < MAX_GUESSES) {
+            const succeess = await getNextGuess(allGuesses);
+            if (!succeess) return false;
         }
 
         setGuesses(allGuesses);
         return true;
     }
 
-    if (loading && !newGuess)
-        return (
-            <div>
-                <CircularProgress />
-            </div>
-        );
-    if (!loading && newGuess === "") return <div>Error: something went wrong</div>;
+    const status: GameStatus = (() => {
+        if (error) return "error";
+        if (newGuess === "") return "initializing";
+        if (loading) return "submitting";
+        if (guesses.length && guesses[guesses.length - 1].clue === "ggggg") return "win";
+        if (guesses.length === MAX_GUESSES) return "lose";
+        return "ongoing";
+    })();
+
+    if (status === "initializing") return <CircularProgress />;
 
     return (
         <div>
@@ -73,7 +68,7 @@ export default function Game() {
                     loading={false}
                 ></Guess>
             ))}
-            {["ongoing", "error"].includes(status) && (
+            {["ongoing", "error", "submitting"].includes(status) && (
                 <Guess
                     number={guesses.length + 1}
                     guess={newGuess}
@@ -86,7 +81,7 @@ export default function Game() {
                     <strong>You {status}!</strong>
                 </div>
             )}
-            {error && (
+            {status === "error" && error && (
                 <div style={{ marginTop: "2rem", fontSize: "2rem", color: "red" }}>{error}</div>
             )}
         </div>
