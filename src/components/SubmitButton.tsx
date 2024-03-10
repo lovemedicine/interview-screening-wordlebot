@@ -13,7 +13,7 @@ export default function SubmitButton({ loading, disabled, onClick }: Props) {
                 variant="contained"
                 disabled={disabled}
                 onClick={onClick}
-                sx={{ marginLeft: "2.7rem" }}
+                sx={{ marginLeft: "2rem" }}
             >
                 Submit
             </Button>

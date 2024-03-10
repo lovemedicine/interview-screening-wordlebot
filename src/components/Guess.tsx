@@ -22,8 +22,6 @@ export default function Guess({ number, guess, loading, submittedClue, submitClu
                 y: "x", // yellow -> X
                 x: "g", // X -> green
             }[clue[index]];
-
-            // @ts-ignore
             setClue(clue.slice(0, index) + newLetterClue + clue.slice(index + 1));
         }
     }
@@ -40,7 +38,7 @@ export default function Guess({ number, guess, loading, submittedClue, submitClu
     }
 
     return (
-        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <div className="guess" style={{ textAlign: "center", marginBottom: "2rem" }}>
             <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
                 <strong>Guess {number}</strong>
             </div>

@@ -15,6 +15,7 @@ export default function Letter({ letter, clue, onClick }: Props) {
 
     return (
         <div
+            className="guess-letter"
             style={{
                 backgroundColor,
                 color,

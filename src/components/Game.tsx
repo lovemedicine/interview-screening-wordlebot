@@ -19,7 +19,6 @@ export default function Game() {
         try {
             const { guess } = await fetchWordleResult(request);
             setNewGuess(guess);
-
             success = true;
         } catch (err: any) {
             setError(String(err));
