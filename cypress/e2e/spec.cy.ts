@@ -1,6 +1,6 @@
 describe("Wordle Bot game", () => {
     function visitPage() {
-        cy.visit("http://localhost:3000");
+        cy.visit(Cypress.env("url") || "http://localhost:3000");
     }
 
     function reForLetter(letter: string) {
@@ -68,7 +68,7 @@ describe("Wordle Bot game", () => {
         cy.contains("Submit").should("not.exist");
     });
 
-    it("enters an impossible clue", () => {
+    it("submits an impossible clue", () => {
         const guesses = [
             ["SERAI", "yxyyx"],
             ["BRAST", "xgggx"],
