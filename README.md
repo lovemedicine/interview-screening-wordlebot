@@ -6,20 +6,21 @@ from a Wordle game. Based on
 
 ## How to Install
 
-1. Clone this repo
-2. Install dependencies
+1. Clone this repo and install dependencies
 
 ```
-npm i
+git clone https://github.com/lovemedicine/wordlebot-frontend
+cd wordlebot-frontend
+npm install
 ```
 
-3. Start the dev server
+2. Start the dev server
 
 ```
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Automated Tests
 
