@@ -45,14 +45,13 @@ export default function Game() {
         return true;
     }
 
-    const status: GameStatus = (() => {
-        if (error) return "error";
-        if (newGuess === "") return "initializing";
-        if (loading) return "submitting";
-        if (guesses.length && guesses[guesses.length - 1].clue === "ggggg") return "win";
-        if (guesses.length === MAX_GUESSES) return "lose";
-        return "ongoing";
-    })();
+    const status: GameStatus =
+        error ? "error"
+        : newGuess === "" ? "initializing"
+        : loading ? "submitting"
+        : guesses.length && guesses[guesses.length - 1].clue === "ggggg" ? "win"
+        : guesses.length === MAX_GUESSES ? "lose"
+        : "ongoing";
 
     if (status === "initializing") return <CircularProgress />;
 

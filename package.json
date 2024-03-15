@@ -49,6 +49,6 @@
     },
     "devDependencies": {
         "cypress": "^13.6.6",
-        "prettier": "^2.8.8"
+        "prettier": "^3.1"
     }
 }

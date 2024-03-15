@@ -4,6 +4,7 @@
     "tabWidth": 4,
     "proseWrap": "always",
     "printWidth": 100,
+    "experimentalTernaries": true,
     "overrides": [
         {
             "files": "*.yml",
